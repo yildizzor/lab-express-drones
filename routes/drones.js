@@ -42,7 +42,8 @@ router.get("/drones/:id/edit", (req, res, next) => {
 
   const { id } = req.params;
 
-  Drone.findOne({ _id: id }) //findById didn't work. there is Bsontype error????
+  // Drone.findOne({ _id: id })
+  Drone.findById(id)
     .then((editDrone) => {
       res.render("drones/update-form", { editDrone });
     })
@@ -65,9 +66,22 @@ router.post("/drones/:id/edit", (req, res, next) => {
 });
 
 
-router.post("/drones/:id/delete", (req, res, next) => {
+
+router.post("/drones/:id/delete", async (req, res, next) => {
   // Iteration #5: Delete the drone
   // ... your code here
-});
+  try{
+    const { id } = req.params;
+    const deletedDrone = await Drone.findByIdAndRemove(id);
+  
+    res.redirect("/drones");
+  } catch(error) {
+
+    next(error)
+  }
+   
+  });
 
 module.exports = router;
+
+

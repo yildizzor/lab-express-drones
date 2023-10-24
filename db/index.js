@@ -19,21 +19,3 @@ mongoose
   .catch((err) => {
     console.error("Error connecting to mongo: ", err);
   });
-
-const Drone = require("../models/Drone.model.js");
-
-const drones = require("../seeds/drones.seed.js");
-
-const saveDrones = async () => {
-  try {
-    const allDrones = await Drone.create(drones);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    MONGO_URI.disconnect;
-    // mongoose.connection.close(); //This is other way to close connection.
-    console.log("Connection is closed.");
-  }
-};
-
-saveDrones();
